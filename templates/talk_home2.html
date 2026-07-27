@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank you {{ request.user.username }}</title>
+    <link rel="stylesheet" href="{% static 'talk_home2.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <script src="{% static 'talk_home3.js' %}" defer></script>
+</head>
+
+<body>
+    <div class="container" style="text-align: center; margin-top: 100px;">
+        <h1>🎉 Account Created, {{ request.user.username }}!</h1>
+        <p>Your registration was successful. You can now access your dashboard.</p>
+        <br>
+        <a href="{% url 'dashboard' %}" class="btn"
+            style="padding: 10px 20px; background: #28a745; color: white; text-decoration: none; border-radius: 5px;">Go
+            to Dashboard</a>
+    </div>
+    <div id="dates">
+        <div id="days">days loading...</div>
+        <div id="clock">00:00:00</div>
+    </div>
+</body>
+
+</html>

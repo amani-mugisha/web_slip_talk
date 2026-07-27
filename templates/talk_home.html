@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slip Talk</title>
+    <link rel="stylesheet" href="{% static 'talk_home.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'images/water.png' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <script src="{% static 'talk_home.js' %}" defer></script>
+</head>
+<body>
+
+    {% if messages %}
+    <div class="flash-container">
+        {% for message in messages %}
+        <div class="flash {{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="background"></div>
+
+    <div class="container">
+        <img src="{% static 'images/water.png' %}" class="logo" alt="Logo">
+        <h1>Slip Talk</h1>
+        <h3>Build Smarter Solutions with Artificial Intelligence</h3>
+
+        <div class="buttons_logins">
+            <button type="button" id="loginBtn" class="btn login">Log In</button>
+            <button type="button" id="registerBtn" class="btn register">Register</button>
+        </div>
+    </div>
+
+    <div class="popup" id="loginPopup">
+        <form action="{% url 'login' %}" method="post" id="loginForm">
+            {% csrf_token %}
+            <div class="formBox">
+                <h2>Welcome Back</h2>
+                <input type="text" name="username" placeholder="Username or Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit" class="formBtn">Login</button>
+                <p class="switch">
+                    Don't have an account? <span class="to-register" style="cursor:pointer; color:blue;">Register</span>
+                </p>
+                <p class="close" onclick="closePopup()">Close</p>
+            </div>
+        </form>
+    </div>
+    <div id="dates">
+        <div id="days">days loading...</div>
+        <div id="clock">00:00:00</div>
+    </div>
+
+    <div class="popup" id="registerPopup">
+        <form action="{% url 'register' %}" method="post" onsubmit="return validateRegisterForm()" id="registerForm">
+            {% csrf_token %}
+            <div class="formBox">
+                <h2>Create Account</h2>
+                <div class="input-container">
+                    <input type="text" name="reg_username" placeholder="Username" required>
+                    <span class="valid-mark">✔</span>
+                </div>
+                <div class="input-container">
+                    <input type="email" name="reg_email" placeholder="Email" required>
+                    <span class="valid-mark">✔</span>
+                </div>
+                <div class="input-container">
+                    <input type="password" name="password" id="password" placeholder="Password" required>
+                </div>
+                <div class="input-container">
+                    <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" required>
+                    <span class="valid-mark">✔</span>
+                </div>
+
+                <div id="passwordRules" class="rules-popup" style="display:none;">
+                    <p>Password requirements:</p>
+                    <ul>
+                        <li id="rule-length">Min. 8 characters</li>
+                        <li id="rule-upper">One uppercase</li>
+                        <li id="rule-number">One number</li>
+                    </ul>
+                </div>
+
+                <button type="submit" class="formBtn">Register</button>
+                <p class="switch">
+                    Already have an account? <span class="to-login" style="cursor:pointer; color:blue;">Login</span>
+                </p>
+                <p class="close" onclick="closePopup()">Close</p>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

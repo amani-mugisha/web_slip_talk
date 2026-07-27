@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome {{ username }}</title>
+    <link rel="icon" type="image/png" href="{% static 'images/water.png' %}">
+    <link rel="stylesheet" href="{% static 'talk_home3.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <script src="{% static 'talk_home3.js' %}" defer></script>
+</head>
+
+<body>
+    {% csrf_token %} {% if messages %}
+    <div class="flash-container">
+        {% for message in messages %}
+        <div class="flash {{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+
+    <div class="header">
+        <div class="chart-menu">
+            <button class="chart-btn">☰</button>
+        </div>
+
+        <div class="user-menu">
+            <button class="menu-btn">
+                <span class="avatar">{{ username|slice:":1"|upper }}</span>
+                {{ username }}
+            </button>
+
+            <div class="dropdown" id="dropdownMenu">
+                <a href="{% url 'logout' %}">Logout</a>
+                <a href="#" onclick="showDeleteConfirm()">Delete Account</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container2">
+        <h1>Welcome back, {{ username }}!</h1>
+
+        <div class="button_choices">
+            <button type="button" class="btn record" id="mybutton" onclick="start_talking()">🎙️Talk now</button>
+            <button type="button" class="btn verify" id="mybotton2">💬 Chart</button>
+        </div>
+    </div>
+
+    <div class="delete-modal" id="deleteModal" style="display:none;">
+        <div class="delete-box">
+            <h3>Confirm Deletion</h3>
+            <form action="{% url 'delete_account' %}" method="post">
+                {% csrf_token %}
+                <input type="password" name="confirm_password" placeholder="Verify password" required>
+                <button type="submit" class="danger-btn">Delete Permanently</button>
+
+                <button type="button" onclick="closeDelete()">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="dates">
+        <div id="days">days loading...</div>
+        <div id="clock">00:00:00</div>
+    </div>
+
+</body>
+
+</html>

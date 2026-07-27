@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .text_area {
+            border-radius: 8px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Text converter</h1>
+    <h3>Please fill the following text area to make sound!</h3>
+
+    <textarea name="textarea" id="text_area" placeholder="Write something here..." cols="60" rows="10"></textarea>
+    <p id="err_par"></p>
+    <button id="convertbtn">Translate</button>
+
+    <script>
+        const text = document.getElementById("text_area");
+        const convert = document.getElementById("convertbtn");
+
+        convert.addEventListener('click', function () {
+            const speechSynth = window.speechSynthesis;
+            const enteredText = text.value;
+            const error = document.getElementById("err_par");
+
+            if (!speechSynth.speaking && !enteredText.trim().length) {
+                error.textContent = `You have to fill inside the text area`;
+            }
+            if (!speechSynth.speaking && enteredText.trim().length) {
+                error.textContent = "";
+                const message =
+                    new SpeechSynthesisUtterance(enteredText);
+
+                const voices = speechSynthesis.getVoices();
+                message.voice = voices.find(v =>
+                    v.name.includes("Google") && v.lang === "en-US"
+                ) || voices[0];
+                message.pitch = 1.2;
+                message.rate = 0.9;
+                message.volume = 1;
+                speechSynth.cancel();
+                speechSynth.speak(message);
+                convert.textContent = "Sound is Playing..."
+            }
+            setTimeout(() => {
+                convert.textContent = "Play converted sound"
+            }, 5000);
+        });
+
+    </script>
+</body>
+
+</html>
